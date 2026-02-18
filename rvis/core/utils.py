@@ -7,9 +7,9 @@ import socket
 import ipaddress
 import logging
 from datetime import datetime
-from typing import Optional
 
 # ── Logging ──────────────────────────────────────────────────────────────────
+
 
 def get_logger(name: str, level: int = logging.INFO) -> logging.Logger:
     """Return a consistently formatted logger."""

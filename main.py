@@ -21,11 +21,12 @@ from __future__ import annotations
 
 import argparse
 import sys
-from pathlib import Path
 
-from rvis.core            import RVISScanner, RiskEngine, get_logger, validate_target, validate_ports
-from rvis.lookup          import CVELookup
-from rvis.reporting       import TerminalReporter, JSONReporter
+from rvis.core import (
+    RVISScanner, RiskEngine, get_logger, validate_target, validate_ports,
+)
+from rvis.lookup import CVELookup
+from rvis.reporting import TerminalReporter, JSONReporter
 
 logger = get_logger("rvis.main")
 
@@ -67,27 +68,46 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     # Scan options
-    parser.add_argument("--timing",      type=int, default=4, choices=range(0, 6), metavar="0-5",
-                        help="Nmap timing template (default: 4)")
-    parser.add_argument("--udp",         action="store_true", help="Include UDP scan (requires root)")
-    parser.add_argument("--os",          dest="os_detection", action="store_true",
-                        help="Enable OS detection (requires root)")
+    parser.add_argument(
+        "--timing", type=int, default=4, choices=range(0, 6), metavar="0-5",
+        help="Nmap timing template (default: 4)",
+    )
+    parser.add_argument(
+        "--udp", action="store_true",
+        help="Include UDP scan (requires root)",
+    )
+    parser.add_argument(
+        "--os", dest="os_detection", action="store_true",
+        help="Enable OS detection (requires root)",
+    )
 
     # CVE options
-    parser.add_argument("--api-key",     metavar="KEY", default=None,
-                        help="NVD API key for higher rate limits")
-    parser.add_argument("--max-cves",    type=int, default=10, metavar="N",
-                        help="Max CVEs per service (default: 10)")
-    parser.add_argument("--no-cve",      action="store_true",
-                        help="Skip CVE lookup")
+    parser.add_argument(
+        "--api-key", metavar="KEY", default=None,
+        help="NVD API key for higher rate limits",
+    )
+    parser.add_argument(
+        "--max-cves", type=int, default=10, metavar="N",
+        help="Max CVEs per service (default: 10)",
+    )
+    parser.add_argument(
+        "--no-cve", action="store_true",
+        help="Skip CVE lookup",
+    )
 
     # Output
-    parser.add_argument("-o", "--output", metavar="FILE.json", default=None,
-                        help="Save JSON report (e.g. reports/scan.json)")
-    parser.add_argument("--quiet",       action="store_true",
-                        help="Suppress terminal output")
-    parser.add_argument("-v", "--verbose", action="store_true",
-                        help="Enable debug logging")
+    parser.add_argument(
+        "-o", "--output", metavar="FILE.json", default=None,
+        help="Save JSON report (e.g. reports/scan.json)",
+    )
+    parser.add_argument(
+        "--quiet", action="store_true",
+        help="Suppress terminal output",
+    )
+    parser.add_argument(
+        "-v", "--verbose", action="store_true",
+        help="Enable debug logging",
+    )
 
     return parser
 
@@ -130,7 +150,7 @@ def run(args: argparse.Namespace) -> int:
         lookup = CVELookup(api_key=args.api_key, max_results=args.max_cves)
         for host in result_dict.get("hosts", []):
             for port_info in host.get("ports", []):
-                key     = f"{host['ip']}:{port_info['port']}"
+                key = f"{host['ip']}:{port_info['port']}"
                 keyword = port_info.get("product") or port_info.get("service", "")
                 version = port_info.get("version", "")
                 if version:
@@ -163,7 +183,7 @@ def run(args: argparse.Namespace) -> int:
 
 def main() -> None:
     parser = build_parser()
-    args   = parser.parse_args()
+    args = parser.parse_args()
     sys.exit(run(args))
 
 

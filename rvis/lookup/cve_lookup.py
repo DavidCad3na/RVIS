@@ -121,7 +121,7 @@ class CVELookup:
 
         # Published / modified dates
         published = cve.get("published", "")
-        modified  = cve.get("lastModified", "")
+        modified = cve.get("lastModified", "")
 
         return {
             "cve_id":       cve_id,
@@ -147,7 +147,7 @@ class CVELookup:
             if not entries:
                 continue
             data = entries[0].get("cvssData", {})
-            score  = float(data.get("baseScore", 0.0))
+            score = float(data.get("baseScore", 0.0))
             vector = data.get("vectorString", "")
             return score, vector, ver
 

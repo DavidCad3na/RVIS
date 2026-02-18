@@ -70,15 +70,15 @@ class TerminalReporter:
 
     def _print_host(self, host: dict) -> None:
         host_risk = host.get("host_risk_score", 0.0)
-        host_sev  = host.get("host_risk_severity", "NONE")
-        color     = severity_color(host_sev)
+        host_sev = host.get("host_risk_severity", "NONE")
+        color = severity_color(host_sev)
 
         header = (
             f"[bold]{host['ip']}[/bold]  ({host.get('hostname', host['ip'])})\n"
             f"OS: {host.get('os', 'Unknown')}   "
             f"Host Risk: [{color}]{host_risk:.1f} / 10.0 ({host_sev})[/{color}]"
         )
-        console.print(Panel(header, title=f"[bold green]Host[/bold green]", expand=False))
+        console.print(Panel(header, title="[bold green]Host[/bold green]", expand=False))
 
         ports = host.get("ports", [])
         if not ports:
@@ -95,16 +95,16 @@ class TerminalReporter:
             show_lines=True,
             title="[bold]Open Ports[/bold]",
         )
-        table.add_column("Port",     style="cyan",  no_wrap=True)
-        table.add_column("Proto",    style="white")
-        table.add_column("Service",  style="white")
-        table.add_column("Product",  style="white")
-        table.add_column("Version",  style="white")
-        table.add_column("Risk",     no_wrap=True)
-        table.add_column("CVEs",     justify="center")
+        table.add_column("Port", style="cyan", no_wrap=True)
+        table.add_column("Proto", style="white")
+        table.add_column("Service", style="white")
+        table.add_column("Product", style="white")
+        table.add_column("Version", style="white")
+        table.add_column("Risk", no_wrap=True)
+        table.add_column("CVEs", justify="center")
 
         for p in ports:
-            sev   = p.get("risk_severity", "NONE")
+            sev = p.get("risk_severity", "NONE")
             color = severity_color(sev)
             score = p.get("risk_score", 0.0)
             cve_count = len(p.get("cves", []))
@@ -137,16 +137,16 @@ class TerminalReporter:
     def _print_cve_table(cves: list[dict]) -> None:
         table = Table(box=box.MINIMAL, show_lines=True)
         table.add_column("CVE ID",     style="bold white", no_wrap=True)
-        table.add_column("CVSS",       justify="center",   no_wrap=True)
-        table.add_column("Severity",   no_wrap=True)
-        table.add_column("Published",  no_wrap=True)
+        table.add_column("CVSS", justify="center", no_wrap=True)
+        table.add_column("Severity", no_wrap=True)
+        table.add_column("Published", no_wrap=True)
         table.add_column("Description")
 
         for cve in cves:
-            sev   = cve.get("severity", "NONE")
+            sev = cve.get("severity", "NONE")
             color = severity_color(sev)
             score = cve.get("cvss_score", 0.0)
-            desc  = cve.get("description", "")[:100]
+            desc = cve.get("description", "")[:100]
             if len(cve.get("description", "")) > 100:
                 desc += "…"
 
@@ -163,11 +163,11 @@ class TerminalReporter:
     @staticmethod
     def _print_summary(hosts: list[dict]) -> None:
         total_ports = sum(len(h.get("ports", [])) for h in hosts)
-        total_cves  = sum(
+        total_cves = sum(
             sum(len(p.get("cves", [])) for p in h.get("ports", []))
             for h in hosts
         )
-        max_risk    = max((h.get("host_risk_score", 0.0) for h in hosts), default=0.0)
+        max_risk = max((h.get("host_risk_score", 0.0) for h in hosts), default=0.0)
 
         summary = (
             f"Hosts scanned : [bold]{len(hosts)}[/bold]\n"

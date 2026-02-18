@@ -8,19 +8,19 @@ by editing this file directly.
 import os
 
 # ── Scanner defaults ──────────────────────────────────────────────────────────
-DEFAULT_PORTS   = os.getenv("RVIS_PORTS",   "1-65535")
-DEFAULT_TIMING  = int(os.getenv("RVIS_TIMING", "4"))     # nmap -T template
-DEFAULT_UDP     = os.getenv("RVIS_UDP",     "false").lower() == "true"
-DEFAULT_OS_DET  = os.getenv("RVIS_OS_DET",  "false").lower() == "true"
+DEFAULT_PORTS = os.getenv("RVIS_PORTS", "1-65535")
+DEFAULT_TIMING = int(os.getenv("RVIS_TIMING", "4"))  # nmap -T template
+DEFAULT_UDP = os.getenv("RVIS_UDP", "false").lower() == "true"
+DEFAULT_OS_DET = os.getenv("RVIS_OS_DET", "false").lower() == "true"
 
 # ── CVE / NVD ─────────────────────────────────────────────────────────────────
-NVD_API_KEY     = os.getenv("NVD_API_KEY",  None)        # set for 10× rate limit
+NVD_API_KEY = os.getenv("NVD_API_KEY", None)  # set for 10× rate limit
 NVD_MAX_RESULTS = int(os.getenv("NVD_MAX_RESULTS", "10"))
 NVD_REQUEST_DELAY = float(os.getenv("NVD_REQUEST_DELAY", "0.6"))  # seconds
 
 # ── Output ────────────────────────────────────────────────────────────────────
-REPORTS_DIR     = os.getenv("RVIS_REPORTS_DIR", "reports")
-JSON_INDENT     = int(os.getenv("RVIS_JSON_INDENT", "2"))
+REPORTS_DIR = os.getenv("RVIS_REPORTS_DIR", "reports")
+JSON_INDENT = int(os.getenv("RVIS_JSON_INDENT", "2"))
 
 # ── Risk engine ───────────────────────────────────────────────────────────────
 # Exposure weight multipliers for high-risk services
