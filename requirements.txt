@@ -1,0 +1,5 @@
+python-nmap==0.7.1
+requests==2.31.0
+rich==13.7.0
+colorama==0.4.6
+cvss==2.6
